@@ -20,7 +20,7 @@ public class Main extends AppCompatActivity {
         botonCultivo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Cultivo.class);
+                Intent intent = new Intent(getApplicationContext(), TabBarActivity.class);
                 startActivity(intent);
             }
         });
