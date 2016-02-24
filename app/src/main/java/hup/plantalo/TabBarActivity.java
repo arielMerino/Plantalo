@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TabHost;
 
+/**
+ * Created by eliasPlease on 19-02-2016.
+ */
 public class TabBarActivity extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -53,30 +53,27 @@
         android:layout_height="0.5dp"
         android:background="@android:color/darker_gray"/>
 
-    <TabHost
-        android:id="@android:id/tabhost"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-
-        <LinearLayout
+        android:layout_height="match_parent">
+        <TabHost
+            android:id="@android:id/tabhost"
             android:layout_width="match_parent"
-            android:id="@+id/linearLayout1"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TabWidget
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@android:id/tabs">
-            </TabWidget>
+            xmlns:android="http://schemas.android.com/apk/res/android">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@android:id/tabcontent">
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>
 
+            </FrameLayout>
+            <TabWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@android:id/tabs"
+                android:layout_gravity="center_horizontal|bottom">
+            </TabWidget>
+        </TabHost>
+    </LinearLayout>
 </LinearLayout>
