@@ -44,9 +44,25 @@ public class Home extends AppCompatActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
+        Fragment fragmento = null;
+
+        if (position == 0){
+            fragmento = new HomeFragment();
+        }
+        if (position == 1){
+            fragmento = new MisCultivosFragment();
+        }
+        if (position == 2){
+            fragmento = new MercadoFragment();
+        }
+
+        Bundle args = new Bundle();
+        args.putInt("section_number", position + 1);
+        fragmento.setArguments(args);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, fragmento)
                 .commit();
     }
 
