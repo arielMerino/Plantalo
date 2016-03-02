@@ -50,9 +50,12 @@ public class Home extends AppCompatActivity
             fragmento = new HomeFragment();
         }
         if (position == 1){
-            fragmento = new MisCultivosFragment();
+            fragmento = new CultivosFragment();
         }
         if (position == 2){
+            fragmento = new MisCultivosFragment();
+        }
+        if (position == 3){
             fragmento = new MercadoFragment();
         }
 
@@ -72,9 +75,12 @@ public class Home extends AppCompatActivity
                 mTitle = getString(R.string.title_section1);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.title_section4);
                 break;
             case 3:
+                mTitle = getString(R.string.title_section2);
+                break;
+            case 4:
                 mTitle = getString(R.string.title_section3);
                 break;
         }
