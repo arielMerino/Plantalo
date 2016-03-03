@@ -2,50 +2,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="hup.plantalo.MercadoFragment"
-    android:orientation="vertical"
-    android:layout_gravity="center_horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MercadoFragment"
+    android:orientation="vertical">
 
-    <android.support.v7.widget.SearchView
+    <SearchView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@android:color/darker_gray"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/searchView"
+        android:queryHint="Buscar..."/>
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center_horizontal">
+        android:background="@color/colorPrimary"
+        android:gravity="center_horizontal">
         <TextView
+            android:id="@+id/BotonProductos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Productos"
-            android:layout_margin="24dp"
-            android:clickable="true"/>
+            android:textSize="@dimen/menu_text_size"
+            android:textColor="@color/colorTextoPrincipal"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:focusable="true"
+            android:selectAllOnFocus="true"/>
         <View
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"/>
+            android:background="@color/colorPrimaryDark"/>
         <TextView
+            android:id="@+id/BotonTiendas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tiendas"
-            android:layout_margin="24dp"
-            android:clickable="true"/>
+            android:textSize="@dimen/menu_text_size"
+            android:textColor="@color/colorTextoPrincipal"
+            android:layout_margin="@dimen/activity_horizontal_margin"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@android:color/darker_gray"/>
-    <ListView
+        android:background="@color/colorPrimaryDark"/>
+    <LinearLayout
+        android:id="@+id/contenido"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listado_mis_cultivos"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-
+        android:orientation="vertical">
+    </LinearLayout>
 </LinearLayout>

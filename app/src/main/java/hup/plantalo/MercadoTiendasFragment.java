@@ -4,15 +4,12 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 
-public class MercadoFragment extends Fragment {
+public class MercadoTiendasFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -25,9 +22,6 @@ public class MercadoFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    TextView botonProductos;
-    TextView botonTiendas;
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -37,8 +31,8 @@ public class MercadoFragment extends Fragment {
      * @return A new instance of fragment CultivosFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MercadoFragment newInstance(String param1, String param2) {
-        MercadoFragment fragment = new MercadoFragment();
+    public static MercadoTiendasFragment newInstance(String param1, String param2) {
+        MercadoTiendasFragment fragment = new MercadoTiendasFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -46,7 +40,7 @@ public class MercadoFragment extends Fragment {
         return fragment;
     }
 
-    public MercadoFragment() {
+    public MercadoTiendasFragment() {
 
     }
 
@@ -57,46 +51,12 @@ public class MercadoFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_mercado, container, false);
-
-        botonProductos = (TextView)view.findViewById(R.id.BotonProductos);
-        botonTiendas = (TextView)view.findViewById(R.id.BotonTiendas);
-
-        botonProductos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MercadoProductosFragment mercado = new MercadoProductosFragment();
-
-                Bundle args = new Bundle();
-                args.putInt("section_number", 100);
-                mercado.setArguments(args);
-                
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.contenido, mercado).commit();
-
-            }
-        });
-
-        botonTiendas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MercadoTiendasFragment mercado = new MercadoTiendasFragment();
-                Bundle args = new Bundle();
-                args.putInt("section_number", 100);
-                mercado.setArguments(args);
-
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.contenido, mercado).commit();
-            }
-        });
-
-        return view;
+        return inflater.inflate(R.layout.fragment_mercado_tiendas, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -109,8 +69,8 @@ public class MercadoFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        /*((Home) activity).onSectionAttached(
-                getArguments().getInt(ARG_SECTION_NUMBER));*/
+        ((Home) activity).onSectionAttached(
+                getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
     @Override

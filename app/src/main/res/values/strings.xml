@@ -16,12 +16,12 @@
 
     <string name="action_example">Example action</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_mercado">Hola desde Mercado</string>
     <string name="hello_mis_cultivos">Hola desde Mis Cultivos</string>
     <string name="hello_home">Hola desde Home</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps">Map</string>
 </resources>
