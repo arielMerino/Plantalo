@@ -7,6 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -101,6 +106,30 @@ public class HomeFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    private class MyAdapter extends ArrayAdapter<CultivosClass> {
+
+        private final Activity context;
+        private ArrayList<CultivosClass> filas;
+
+        public MyAdapter(Activity context, ArrayList<CultivosClass> filas) {
+            super(context, R.layout.casilla_mis_cultivos, filas);
+            this.context = context;
+            this.filas = filas;
+        }
+        public View getView(int position,View view,ViewGroup parent) {
+            LayoutInflater inflater=context.getLayoutInflater();
+            View rowView=inflater.inflate(R.layout.casilla_mis_cultivos, null, true);
+
+            TextView nombre = (TextView) rowView.findViewById(R.id.texto);
+            ImageView imagen = (ImageView) rowView.findViewById(R.id.imagen_casilla);
+
+            nombre.setText(filas.get(position).getNombre());
+            imagen.setImageBitmap(filas.get(position).getImagen());
+            return rowView;
+
+        }
     }
 
 }

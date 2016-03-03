@@ -9,5 +9,6 @@
         android:id="@+id/listado_mis_cultivos"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:dividerHeight="10dp"/>
 </FrameLayout>
