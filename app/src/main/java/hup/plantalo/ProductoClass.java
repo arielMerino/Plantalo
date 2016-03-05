@@ -4,7 +4,7 @@ package hup.plantalo;
  * Created by Ariel on 04-03-2016.
  */
 public class ProductoClass {
-    private String imagen;
+    private int imagen;
     private String nombre;
     private String tienda;
     private String descripcion;
@@ -13,7 +13,7 @@ public class ProductoClass {
 
     /**Constructores**/
     public ProductoClass(){
-        this.imagen = "";
+        this.imagen = -1;
         this.nombre = "";
         this.tienda = "";
         this.descripcion = "";
@@ -21,7 +21,7 @@ public class ProductoClass {
         this.valoracion = 0;
     }
 
-    public ProductoClass(String imagen, String nombre, String tienda, String descripcion, int precio, float valoracion){
+    public ProductoClass(int imagen, String nombre, String tienda, String descripcion, int precio, float valoracion){
         this.imagen = imagen;
         this.nombre = nombre;
         this.tienda = tienda;
@@ -31,7 +31,7 @@ public class ProductoClass {
     }
     /**Setters y Getters**/
 
-    public void setImagen(String direccion){
+    public void setImagen(int direccion){
         this.imagen = direccion;
     }
     public void setNombre(String nombre){
@@ -49,7 +49,7 @@ public class ProductoClass {
     public void setValoracion(float valoracion) {
         this.valoracion = valoracion;
     }
-    public String getImagen(){
+    public int getImagen(){
         return this.imagen;
     }
     public String getNombre(){
@@ -64,7 +64,7 @@ public class ProductoClass {
     public int getPrecio(){
         return this.precio;
     }
-    public float valoracion(){
+    public float getValoracion(){
         return this.valoracion;
     }
 }

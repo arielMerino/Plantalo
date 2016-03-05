@@ -2,7 +2,6 @@ package hup.plantalo;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -73,7 +72,6 @@ public class MercadoFragment extends Fragment {
 
         tabHost = (TabHost)view.findViewById(R.id.tabHost);
         busqueda = (EditText)view.findViewById(R.id.busquedaMercado);
-        salida = (TextView)view.findViewById(R.id.salida);
 
         tabHost.setup();
 

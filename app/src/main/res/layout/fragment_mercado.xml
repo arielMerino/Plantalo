@@ -49,16 +49,6 @@
             </FrameLayout>
         </LinearLayout>
     </TabHost>
-    <!--LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/searchView"
-            android:queryHint="Buscar..." /-->
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,17 +62,11 @@
         android:layout_marginRight="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="5dp"
-        android:layout_marginTop="3dp" />
+        android:layout_marginTop="10dp" />
     <LinearLayout
         android:id="@+id/contenido"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No se ha realizado ninguna búsqueda..."
-            android:paddingLeft="18dp"
-            android:id="@+id/salida"/>
     </LinearLayout>
 </LinearLayout>
