@@ -4,51 +4,85 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MercadoFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
-    <SearchView
+    <TabHost
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/searchView"
-        android:queryHint="Buscar..."/>
+        android:id="@+id/tabHost"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorPrimary">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/colorPrimary"
-        android:gravity="center_horizontal">
-        <TextView
-            android:id="@+id/BotonProductos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Productos"
-            android:textSize="@dimen/menu_text_size"
-            android:textColor="@color/colorTextoPrincipal"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:focusable="true"
-            android:selectAllOnFocus="true"/>
-        <View
-            android:layout_width="0.5dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimaryDark"/>
-        <TextView
-            android:id="@+id/BotonTiendas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tiendas"
-            android:textSize="@dimen/menu_text_size"
-            android:textColor="@color/colorTextoPrincipal"
-            android:layout_margin="@dimen/activity_horizontal_margin"/>
-    </LinearLayout>
-    <View
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/ejemplo1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"></LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ejemplo2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"></LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ejemplo3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"></LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+    <!--LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/colorPrimaryDark"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/searchView"
+            android:queryHint="Buscar..." /-->
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/busquedaMercado"
+        android:hint="Buscar..."
+        android:singleLine="true"
+        android:drawableRight="@drawable/places_ic_search"
+        android:imeOptions="actionSearch"
+        android:background="@drawable/edittext_redondo"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="5dp"
+        android:layout_marginTop="3dp" />
     <LinearLayout
         android:id="@+id/contenido"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No se ha realizado ninguna búsqueda..."
+            android:paddingLeft="18dp"
+            android:id="@+id/salida"/>
     </LinearLayout>
 </LinearLayout>
