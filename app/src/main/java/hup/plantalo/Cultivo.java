@@ -1,16 +1,42 @@
 package hup.plantalo;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import hup.plantalo.database.DatabaseOperations;
 
 public class Cultivo extends AppCompatActivity {
+
+    ImageView imagen;
+    TextView nombre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultivo);
+
+        Intent intent = getIntent();
+        int posicionRecibida = intent.getIntExtra("fila", -1);
+
+        DatabaseOperations dbop = new DatabaseOperations(getApplicationContext());
+        Cursor cursor = dbop.obtenerCultivos(dbop);
+        cursor.moveToPosition(posicionRecibida);
+
+        nombre = (TextView) findViewById(R.id.nombreCultivo);
+        nombre.setText(cursor.getString(0));
+
+        imagen = (ImageView) findViewById(R.id.imagenCultivo);
+        Uri uri = Uri.parse(cursor.getString(2));
+        imagen.setImageURI(uri);
     }
 
     @Override
@@ -33,5 +59,9 @@ public class Cultivo extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public static Bitmap getImage(byte[] image) {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 }

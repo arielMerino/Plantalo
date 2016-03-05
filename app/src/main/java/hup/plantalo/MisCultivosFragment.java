@@ -2,6 +2,9 @@ package hup.plantalo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,10 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import hup.plantalo.database.CultivosTable;
+import hup.plantalo.database.DatabaseOperations;
 
 
 /**
@@ -35,7 +42,7 @@ public class MisCultivosFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     MyAdapter myAdapter;
-    ArrayList<String> filas;
+    ArrayList<CultivosClass> filas;
     ListView listado;
 
     private OnFragmentInteractionListener mListener;
@@ -79,14 +86,16 @@ public class MisCultivosFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_mis_cultivos, container, false);
         listado = (ListView) rootView.findViewById(R.id.listado_mis_cultivos);
 
+        //filas.add(new CultivosClass("Tomate", "Son muy buenos", BitmapFactory.decodeResource(this.getResources(), R.drawable.tomates)));
+        //filas.add(new CultivosClass("Papa", "Papas del norte de Chile", BitmapFactory.decodeResource(this.getResources(), R.drawable.papas)));
+        DatabaseOperations dbop = new DatabaseOperations(getActivity());
+        Cursor cursor = dbop.obtenerCultivos(dbop);
+        cursor.moveToPosition(-1);
+        //cursor.moveToFirst();
+        while(cursor.moveToNext()){
+            filas.add(new CultivosClass(cursor.getString(cursor.getColumnIndex(CultivosTable.TableInfoCultivos.CULTIVO_NAME)), cursor.getString(cursor.getColumnIndex(CultivosTable.TableInfoCultivos.CULTIVO_DESCRIPTION)), cursor.getString(cursor.getColumnIndex(CultivosTable.TableInfoCultivos.CULTIVO_IMAGE))));
+        }
 
-        filas.add("Tomate");
-        filas.add("Papa");
-        filas.add("Lechuga");
-        filas.add("Repollo");
-        filas.add("Apio");
-        filas.add("Cilantro");
-        filas.add("Perejil");
         myAdapter = new MyAdapter(getActivity(), filas);
         listado.setAdapter(myAdapter);
 
@@ -94,6 +103,7 @@ public class MisCultivosFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), Cultivo.class);
+                intent.putExtra("fila", position);
                 startActivity(intent);
             }
         });
@@ -101,12 +111,16 @@ public class MisCultivosFragment extends Fragment {
         return rootView;
     }
 
-    private class MyAdapter extends ArrayAdapter<String> {
+    public static Bitmap getImage(byte[] image) {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
+    }
+
+    private class MyAdapter extends ArrayAdapter<CultivosClass> {
 
         private final Activity context;
-        private ArrayList<String> filas;
+        private ArrayList<CultivosClass> filas;
 
-        public MyAdapter(Activity context, ArrayList<String> filas) {
+        public MyAdapter(Activity context, ArrayList<CultivosClass> filas) {
             super(context, R.layout.casilla_mis_cultivos, filas);
             this.context = context;
             this.filas = filas;
@@ -116,8 +130,12 @@ public class MisCultivosFragment extends Fragment {
             View rowView=inflater.inflate(R.layout.casilla_mis_cultivos, null, true);
 
             TextView nombre = (TextView) rowView.findViewById(R.id.texto);
+            ImageView imagen = (ImageView) rowView.findViewById(R.id.imagen_casilla);
 
-            nombre.setText(filas.get(position));
+            nombre.setText(filas.get(position).getNombre());
+
+            Uri uri = Uri.parse(filas.get(position).getImagen());
+            imagen.setImageURI(uri);
             return rowView;
 
         }
