@@ -5,11 +5,25 @@
     tools:context="hup.plantalo.MercadoProductosFragment"
     android:id="@+id/Mercado_Productos_Fragment">
 
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Productos Fragment" />
-
+        android:orientation="vertical"
+        android:layout_gravity="top">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mensaje_busqueda"
+            android:text="prueba"
+            android:layout_marginLeft="8dp"
+            android:textSize="18dp"
+            />
+        <ListView
+            android:id="@+id/listado_productos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:dividerHeight="5dp">
+        </ListView>
+    </LinearLayout>
 </FrameLayout>

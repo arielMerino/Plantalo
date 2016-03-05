@@ -1,14 +1,18 @@
 package hup.plantalo;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 
@@ -25,8 +29,9 @@ public class MercadoFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    TextView botonProductos;
-    TextView botonTiendas;
+    TabHost tabHost;
+    EditText busqueda;
+    TextView salida;
 
     /**
      * Use this factory method to create a new instance of
@@ -65,37 +70,93 @@ public class MercadoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_mercado, container, false);
 
-        botonProductos = (TextView)view.findViewById(R.id.BotonProductos);
-        botonTiendas = (TextView)view.findViewById(R.id.BotonTiendas);
+        tabHost = (TabHost)view.findViewById(R.id.tabHost);
+        busqueda = (EditText)view.findViewById(R.id.busquedaMercado);
 
-        botonProductos.setOnClickListener(new View.OnClickListener() {
+        tabHost.setup();
+
+        TabHost.TabSpec tab1 = tabHost.newTabSpec("tab1");
+        TabHost.TabSpec tab2 = tabHost.newTabSpec("tab2");
+        TabHost.TabSpec tab3 = tabHost.newTabSpec("tab3");
+
+        tab1.setIndicator("Productos");
+        tab1.setContent(R.id.ejemplo1);
+
+        tab2.setIndicator("Tiendas");
+        tab2.setContent(R.id.ejemplo2);
+
+        tab3.setIndicator("Mapa");
+        tab3.setContent(R.id.ejemplo3);
+
+        tabHost.addTab(tab1);
+        tabHost.addTab(tab2);
+        tabHost.addTab(tab3);
+
+        busqueda.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                MercadoProductosFragment mercado = new MercadoProductosFragment();
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String t = busqueda.getText().toString();
 
-                Bundle args = new Bundle();
-                args.putInt("section_number", 100);
-                mercado.setArguments(args);
-                
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.contenido, mercado).commit();
+                    MercadoProductosFragment mercado = new MercadoProductosFragment();
 
+                    Bundle args = new Bundle();
+                    args.putString("valor_busqueda",t);
+                    mercado.setArguments(args);
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.contenido, mercado).commit();
+
+                }
+                return false;
             }
         });
 
-        botonTiendas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MercadoTiendasFragment mercado = new MercadoTiendasFragment();
-                Bundle args = new Bundle();
-                args.putInt("section_number", 100);
-                mercado.setArguments(args);
+        for (int i=0; i < 3 ; i++) {
+            TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+            tv.setTextColor(Color.parseColor("#ffffff"));
+        }
 
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.contenido, mercado).commit();
+        TextView tv1 = (TextView) tabHost.getCurrentTabView().findViewById(android.R.id.title);
+        tv1.setTextColor(Color.parseColor("#96FCB0"));
+
+
+        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                for (int i=0; i < 3 ; i++) {
+                    TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+                    tv.setTextColor(Color.parseColor("#ffffff"));
+                }
+
+                TextView tv = (TextView) tabHost.getCurrentTabView().findViewById(android.R.id.title);
+                tv.setTextColor(Color.parseColor("#96FCB0"));
+
+                int current = tabHost.getCurrentTab();
+                if (current == 0) {
+                    MercadoProductosFragment mercado = new MercadoProductosFragment();
+
+                    Bundle args = new Bundle();
+                    args.putInt("section_number", 100);
+                    mercado.setArguments(args);
+
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.contenido, mercado).commit();
+                }
+
+                if (current == 1) {
+                    MercadoTiendasFragment mercado = new MercadoTiendasFragment();
+
+                    Bundle args = new Bundle();
+                    args.putInt("section_number", 100);
+                    mercado.setArguments(args);
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.contenido, mercado).commit();
+                }
             }
         });
-
         return view;
     }
 
@@ -109,8 +170,8 @@ public class MercadoFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        /*((Home) activity).onSectionAttached(
-                getArguments().getInt(ARG_SECTION_NUMBER));*/
+        ((Home) activity).onSectionAttached(
+                getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
     @Override
