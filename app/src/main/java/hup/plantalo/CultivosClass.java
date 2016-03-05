@@ -10,9 +10,9 @@ import android.os.Parcelable;
 public class CultivosClass implements Parcelable {
     private String nombre;
     private String descripción;
-    private Bitmap imagen;
+    private String imagen;
 
-    public CultivosClass(String nombre, String descripcion, Bitmap imagen){
+    public CultivosClass(String nombre, String descripcion, String imagen){
         this.nombre = nombre;
         this.descripción = descripcion;
         this.imagen = imagen;
@@ -54,11 +54,11 @@ public class CultivosClass implements Parcelable {
         this.descripción = descripción;
     }
 
-    public Bitmap getImagen() {
+    public String getImagen() {
         return imagen;
     }
 
-    public void setImagen(Bitmap imagen) {
+    public void setImagen(String imagen) {
         this.imagen = imagen;
     }
 
@@ -71,6 +71,6 @@ public class CultivosClass implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(nombre);
         dest.writeString(descripción);
-        dest.writeParcelable(imagen, flags);
+        dest.writeString(imagen);
     }
 }

@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import hup.plantalo.database.CultivosTable;
 import hup.plantalo.database.DatabaseOperations;
 
 
@@ -90,8 +91,9 @@ public class MisCultivosFragment extends Fragment {
         DatabaseOperations dbop = new DatabaseOperations(getActivity());
         Cursor cursor = dbop.obtenerCultivos(dbop);
         cursor.moveToPosition(-1);
+        //cursor.moveToFirst();
         while(cursor.moveToNext()){
-            filas.add(new CultivosClass(cursor.getString(0), cursor.getString(1), getImage(cursor.getBlob(2))));
+            filas.add(new CultivosClass(cursor.getString(cursor.getColumnIndex(CultivosTable.TableInfoCultivos.CULTIVO_NAME)), cursor.getString(cursor.getColumnIndex(CultivosTable.TableInfoCultivos.CULTIVO_DESCRIPTION)), cursor.getString(cursor.getColumnIndex(CultivosTable.TableInfoCultivos.CULTIVO_IMAGE))));
         }
 
         myAdapter = new MyAdapter(getActivity(), filas);
@@ -131,7 +133,9 @@ public class MisCultivosFragment extends Fragment {
             ImageView imagen = (ImageView) rowView.findViewById(R.id.imagen_casilla);
 
             nombre.setText(filas.get(position).getNombre());
-            imagen.setImageBitmap(filas.get(position).getImagen());
+
+            Uri uri = Uri.parse(filas.get(position).getImagen());
+            imagen.setImageURI(uri);
             return rowView;
 
         }

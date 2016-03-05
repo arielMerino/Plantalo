@@ -6,8 +6,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/nombre"
-        android:textSize="@dimen/place_autocomplete_progress_size"
-        android:text="Probando nombre"/>
+        android:id="@+id/autor_comentario"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/comentario"/>
 
 </LinearLayout>

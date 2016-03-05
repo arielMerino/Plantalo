@@ -1,17 +1,22 @@
 package hup.plantalo;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import hup.plantalo.database.DatabaseOperations;
 
 
 /**
@@ -28,6 +33,9 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_SECTION_NUMBER = "section_number";
+    ListView listadoComentarios;
+    MyAdapter myAdapter;
+    ArrayList<ListViewComentario> filas;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -64,13 +72,28 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        filas = new ArrayList<>();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home2, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_home2, container, false);
+        listadoComentarios = (ListView) rootView.findViewById(R.id.listado_home_comentarios);
+
+        DatabaseOperations dbop = new DatabaseOperations(getActivity());
+        Cursor cursor = dbop.obtenerComentariosTipsDeMisCultivos(dbop);
+        cursor.moveToPosition(-1);
+        int contador = 0;
+        while(cursor.moveToNext() && contador < 6){
+            filas.add(new ListViewComentario(cursor.getString(0),cursor.getString(1),cursor.getString(2), cursor.getString(4)));
+            contador++;
+        }
+        myAdapter = new MyAdapter(getActivity(), filas);
+        listadoComentarios.setAdapter(myAdapter);
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -108,25 +131,26 @@ public class HomeFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    private class MyAdapter extends ArrayAdapter<CultivosClass> {
+    private class MyAdapter extends ArrayAdapter<ListViewComentario> {
 
         private final Activity context;
-        private ArrayList<CultivosClass> filas;
+        private ArrayList<ListViewComentario> filas;
 
-        public MyAdapter(Activity context, ArrayList<CultivosClass> filas) {
-            super(context, R.layout.casilla_mis_cultivos, filas);
+        public MyAdapter(Activity context, ArrayList<ListViewComentario> filas) {
+            super(context, R.layout.casilla_home, filas);
             this.context = context;
             this.filas = filas;
         }
         public View getView(int position,View view,ViewGroup parent) {
             LayoutInflater inflater=context.getLayoutInflater();
-            View rowView=inflater.inflate(R.layout.casilla_mis_cultivos, null, true);
+            View rowView=inflater.inflate(R.layout.casilla_home, null, true);
 
-            TextView nombre = (TextView) rowView.findViewById(R.id.texto);
-            ImageView imagen = (ImageView) rowView.findViewById(R.id.imagen_casilla);
+            TextView autor = (TextView) rowView.findViewById(R.id.autor_comentario);
+            TextView comentario = (TextView) rowView.findViewById(R.id.comentario);
 
-            nombre.setText(filas.get(position).getNombre());
-            imagen.setImageBitmap(filas.get(position).getImagen());
+            Spanned text = Html.fromHtml("<b>" + filas.get(position).getAutor() + "</b> comento en <b>" + filas.get(position).getCultivo() + "</b>");
+            autor.setText(text);
+            comentario.setText(filas.get(position).getComentario());
             return rowView;
 
         }
