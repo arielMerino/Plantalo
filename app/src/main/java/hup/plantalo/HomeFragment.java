@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,8 +35,11 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_SECTION_NUMBER = "section_number";
     ListView listadoComentarios;
-    MyAdapter myAdapter;
+    ListView listadoTips;
+    MyAdapter myAdapterComentarios;
+    MyAdapter myAdapterTips;
     ArrayList<ListViewComentario> filas;
+    ArrayList<ListViewComentario> filasTips;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -73,6 +77,7 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         filas = new ArrayList<>();
+        filasTips = new ArrayList<>();
     }
 
     @Override
@@ -80,18 +85,31 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home2, container, false);
-        listadoComentarios = (ListView) rootView.findViewById(R.id.listado_home_comentarios);
-
         DatabaseOperations dbop = new DatabaseOperations(getActivity());
-        Cursor cursor = dbop.obtenerComentariosTipsDeMisCultivos(dbop);
-        cursor.moveToPosition(-1);
         int contador = 0;
-        while(cursor.moveToNext() && contador < 6){
-            filas.add(new ListViewComentario(cursor.getString(0),cursor.getString(1),cursor.getString(2), cursor.getString(4)));
+
+        //Listview tips
+        listadoTips = (ListView) rootView.findViewById(R.id.listado_home_tips);
+        Cursor cursorTips = dbop.obtenerTipsDeMisCultivos(dbop);
+        cursorTips.moveToPosition(-1);
+        while(cursorTips.moveToNext() && contador < 6){
+            filasTips.add(new ListViewComentario(cursorTips.getString(0),cursorTips.getString(1),cursorTips.getString(2), cursorTips.getString(4), cursorTips.getString(5)));
             contador++;
         }
-        myAdapter = new MyAdapter(getActivity(), filas);
-        listadoComentarios.setAdapter(myAdapter);
+        myAdapterTips = new MyAdapter(getActivity(), filas);
+        listadoTips.setAdapter(myAdapterTips);
+
+        //Listview comentarios
+        listadoComentarios = (ListView) rootView.findViewById(R.id.listado_home_comentarios);
+        Cursor cursor = dbop.obtenerComentariosDeMisCultivos(dbop);
+        cursor.moveToPosition(-1);
+        contador = 0;
+        while(cursor.moveToNext() && contador < 6){
+            filas.add(new ListViewComentario(cursor.getString(0),cursor.getString(1),cursor.getString(2), cursor.getString(4), cursor.getString(5)));
+            contador++;
+        }
+        myAdapterComentarios = new MyAdapter(getActivity(), filas);
+        listadoComentarios.setAdapter(myAdapterComentarios);
 
         return rootView;
     }
@@ -147,7 +165,10 @@ public class HomeFragment extends Fragment {
 
             TextView autor = (TextView) rowView.findViewById(R.id.autor_comentario);
             TextView comentario = (TextView) rowView.findViewById(R.id.comentario);
+            ImageView imagenAutor = (ImageView) rowView.findViewById(R.id.imagen_autor);
 
+            Uri uri = Uri.parse(filas.get(position).getImagenAutor());
+            imagenAutor.setImageURI(uri);
             Spanned text = Html.fromHtml("<b>" + filas.get(position).getAutor() + "</b> comento en <b>" + filas.get(position).getCultivo() + "</b>");
             autor.setText(text);
             comentario.setText(filas.get(position).getComentario());

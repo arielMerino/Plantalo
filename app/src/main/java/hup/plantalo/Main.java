@@ -37,11 +37,16 @@ public class Main extends AppCompatActivity {
             //Bitmap bitmap3 = BitmapFactory.decodeResource(this.getResources(), R.drawable.lechuga);
             //Bitmap bitmap4 = BitmapFactory.decodeResource(this.getResources(), R.drawable.zanahoria);
 
+            //imagenes cultivos
             String uri1 = "android.resource://"+this.getPackageName()+"/" + R.drawable.tomates;
             String uri2 = "android.resource://"+this.getPackageName()+"/" + R.drawable.papas;
             String uri3 = "android.resource://"+this.getPackageName()+"/" + R.drawable.lechuga;
             String uri4 = "android.resource://"+this.getPackageName()+"/" + R.drawable.zanahoria;
-
+            //imagenes usuarios
+            String imagen_elias = "android.resource://"+this.getPackageName()+"/" + R.drawable.elias;
+            String imagen_ariel = "android.resource://"+this.getPackageName()+"/" + R.drawable.ariel;
+            String imagen_roberto = "android.resource://"+this.getPackageName()+"/" + R.drawable.roberto;
+            String imagen_nicolas = "android.resource://"+this.getPackageName()+"/" + R.drawable.nicolas;
 
             imagenPrueba = (ImageView) findViewById(R.id.imagenprueba);
             Uri uri = Uri.parse("android.resource://"+this.getPackageName() + "/" + R.drawable.tomates);
@@ -59,18 +64,30 @@ public class Main extends AppCompatActivity {
             date.setLenient(false);
             Date today = new Date();
             String fechaHoy = date.format(today);
-            bd.agregarComentarioTips(bd, "Ariel Meriño", "El tomate es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Tomate");
-            bd.agregarComentarioTips(bd, "Elias Sobarzo", "La zanahoria es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Zanahoria");
-            bd.agregarComentarioTips(bd, "Roberto Sandoval", "La lechuga es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Lechuga");
-            bd.agregarComentarioTips(bd, "Nicolas Uribe", "La papa es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Papa");
-            bd.agregarComentarioTips(bd, "Miguel Sobarzo", "El tomate es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Tomate");
-            bd.agregarComentarioTips(bd, "Cecilia Del Pino", "La zanahoria es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Zanahoria");
-            bd.agregarComentarioTips(bd, "Ariel Meriño", "La lechuga es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Lechuga");
-            bd.agregarComentarioTips(bd, "Elias Sobarzo", "La papa es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Papa");
-            bd.agregarComentarioTips(bd, "Roberto Sandoval", "El tomate es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Tomate");
-            bd.agregarComentarioTips(bd, "Nicolas Uribe", "El Zanahoria es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Zanahoria");
-            bd.agregarComentarioTips(bd, "Miguel Sobarzo", "La lechuga es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Lechuga");
-            bd.agregarComentarioTips(bd, "Cecilia Del Pino", "La papa es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Papa");
+            bd.agregarComentarioTips(bd, "Ariel Meriño", "El tomate es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Tomate", imagen_ariel);
+            bd.agregarComentarioTips(bd, "Elias Sobarzo", "La zanahoria es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Zanahoria", imagen_elias);
+            bd.agregarComentarioTips(bd, "Roberto Sandoval", "La lechuga es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Lechuga", imagen_roberto);
+            bd.agregarComentarioTips(bd, "Nicolas Uribe", "La papa es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Papa", imagen_nicolas);
+            bd.agregarComentarioTips(bd, "Ariel Meriño", "La lechuga es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Lechuga", imagen_ariel);
+            bd.agregarComentarioTips(bd, "Elias Sobarzo", "La papa es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Papa", imagen_elias);
+            bd.agregarComentarioTips(bd, "Roberto Sandoval", "El tomate es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Tomate", imagen_roberto);
+            bd.agregarComentarioTips(bd, "Nicolas Uribe", "El Zanahoria es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Zanahoria", imagen_nicolas);
+            bd.agregarComentarioTips(bd, "Ariel Meriño", "El tomate es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Tomate", imagen_ariel);
+            bd.agregarComentarioTips(bd, "Elias Sobarzo", "La zanahoria es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Zanahoria", imagen_elias);
+            bd.agregarComentarioTips(bd, "Roberto Sandoval", "La lechuga es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Lechuga", imagen_roberto);
+            bd.agregarComentarioTips(bd, "Nicolas Uribe", "La papa es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Papa", imagen_nicolas);
+            bd.agregarComentarioTips(bd, "Ariel Meriño", "La lechuga es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Lechuga", imagen_ariel);
+            bd.agregarComentarioTips(bd, "Elias Sobarzo", "La papa es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Papa", imagen_elias);
+            bd.agregarComentarioTips(bd, "Roberto Sandoval", "El tomate es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Tomate", imagen_roberto);
+            bd.agregarComentarioTips(bd, "Nicolas Uribe", "El Zanahoria es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Zanahoria", imagen_nicolas);
+            bd.agregarComentarioTips(bd, "Ariel Meriño", "El tomate es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Tomate", imagen_ariel);
+            bd.agregarComentarioTips(bd, "Elias Sobarzo", "La zanahoria es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Zanahoria", imagen_elias);
+            bd.agregarComentarioTips(bd, "Roberto Sandoval", "La lechuga es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Lechuga", imagen_roberto);
+            bd.agregarComentarioTips(bd, "Nicolas Uribe", "La papa es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Papa", imagen_nicolas);
+            bd.agregarComentarioTips(bd, "Ariel Meriño", "La lechuga es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Lechuga", imagen_ariel);
+            bd.agregarComentarioTips(bd, "Elias Sobarzo", "La papa es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Papa", imagen_elias);
+            bd.agregarComentarioTips(bd, "Roberto Sandoval", "El tomate es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Tomate", imagen_roberto);
+            bd.agregarComentarioTips(bd, "Nicolas Uribe", "El Zanahoria es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Zanahoria", imagen_nicolas);
 
             bd.agregarMiCultivo(bd, "Tomate");
             bd.agregarMiCultivo(bd, "Zanahoria");
