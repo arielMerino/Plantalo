@@ -8,12 +8,22 @@ public class ListViewComentario {
     private String comentario;
     private String fecha;
     private String cultivo;
+    private String imagenAutor;
 
-    public ListViewComentario(String autor, String comentario, String fecha, String cultivo){
+    public ListViewComentario(String autor, String comentario, String fecha, String cultivo, String imagenAutor){
         this.autor = autor;
         this.comentario = comentario;
         this.fecha = fecha;
         this.cultivo = cultivo;
+        this.imagenAutor = imagenAutor;
+    }
+
+    public String getImagenAutor() {
+        return imagenAutor;
+    }
+
+    public void setImagenAutor(String imagenAutor) {
+        this.imagenAutor = imagenAutor;
     }
 
     public String getAutor() {

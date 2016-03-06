@@ -19,5 +19,6 @@ public class ComentariosTipsTable {
         public static final String TABLE_NAME = "comentariotips_table";
         public static final String CULTIVO = "cultivo";
         public static final String TIPO = "tipo";
+        public static final String IMAGEN_AUTOR = "imagen_autor";
     }
 }
