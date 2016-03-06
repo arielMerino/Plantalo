@@ -26,7 +26,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/colorPrimaryDark"
                     android:text="Nombre de la tienda"
-                    android:layout_alignParentLeft="true"/>}
+                    android:layout_alignParentLeft="true"/>
                 <TextView
                     android:id="@+id/valoracion_tienda_detalle"
                     android:layout_width="wrap_content"
@@ -44,7 +44,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:id="@+id/imagen_tienda_detalle"/>
+                android:id="@+id/imagen_tienda_detalle"
+                android:background="@drawable/common_google_signin_btn_icon_dark"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,15 +70,15 @@
                     android:orientation="horizontal"
                     android:paddingBottom="5dp">
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginLeft="5dp"
                         android:background="@android:drawable/ic_dialog_email"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
                         android:textColor="@color/colorPrimary"
                         android:text="un.correo.de@ejemplo.com"
                         android:id="@+id/correo_tienda_detalle"/>
@@ -89,15 +90,15 @@
                     android:orientation="horizontal"
                     android:paddingBottom="5dp">
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginLeft="5dp"
                         android:background="@android:drawable/stat_sys_phone_call"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
                         android:textColor="@color/colorPrimary"
                         android:text="(+56) 9 12345678"
                         android:id="@+id/fono_tienda_detalle"/>
@@ -109,15 +110,15 @@
                     android:orientation="horizontal"
                     android:paddingBottom="5dp">
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginLeft="5dp"
                         android:background="@android:drawable/ic_menu_myplaces"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20dp"
+                        android:textSize="18dp"
                         android:textColor="@color/colorPrimary"
                         android:text="aqui va la direccion completa, 123456, comuna"
                         android:id="@+id/direccion_tienda_detalle"/>
