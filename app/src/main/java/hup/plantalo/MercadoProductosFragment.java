@@ -44,8 +44,7 @@ public class MercadoProductosFragment extends Fragment {
             "esta es una descripción de ejemplo para las semillas de tomate, nada de lo que salga aquí existe realmente, please no pesquen",
             "esta es una descripción de ejemplo para las semillas de tomate cherry, nada de lo que salga aquí existe realmente, please no pesquen"};
     int imagenes[] = {R.drawable.pala,R.drawable.macetero_redondo,R.drawable.carpa_indoor,R.drawable.tierra_hoja,R.drawable.semillas_tomate,R.drawable.semillas_tomate_cherry};
-    //String imagenes[] = {"","","","","",""};
-    String tiendas[] = {"","","","","",""};
+    String tiendas[] = {"","jardin flaminia","","","jardin flaminia","jardin flaminia"};
     float valoraciones[] = {(float)2.0, (float)5.9, (float)3.6, (float)7.0, (float)6.5, (float)9.2};
     int precios[] = {800, 2000, 25000, 300, 1200, 1850};
 
@@ -99,8 +98,6 @@ public class MercadoProductosFragment extends Fragment {
                     if (productos.get(i).getNombre().toLowerCase().contains(s.toLowerCase())) {
                         resultados.add(productos.get(i));
                         conteo++;
-                    }else {
-                        mensajeBusqueda.setText("No se han encontrado coincidencias...");
                     }
                 }
             }else {
@@ -110,7 +107,10 @@ public class MercadoProductosFragment extends Fragment {
             mensajeBusqueda.setText("La búsqueda necesita por lo menos 3 letras...");
         }
 
-        if (conteo > 0) { mensajeBusqueda.setText("");}
+        if (conteo > 0) { mensajeBusqueda.setText("");
+        }else {
+            mensajeBusqueda.setText("No se han encontrado coincidencias...");
+        }
 
         myAdapter = new MyAdapter(getActivity(),resultados);
         lista.setAdapter(myAdapter);
@@ -170,7 +170,6 @@ public class MercadoProductosFragment extends Fragment {
             precio.setText(p);
             imagen.setImageResource(filas.get(position).getImagen());
             return rowView;
-
         }
     }
 

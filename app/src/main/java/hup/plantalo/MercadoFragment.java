@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,14 +99,29 @@ public class MercadoFragment extends Fragment {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String t = busqueda.getText().toString();
 
-                    MercadoProductosFragment mercado = new MercadoProductosFragment();
+                    int current = tabHost.getCurrentTab();
 
                     Bundle args = new Bundle();
-                    args.putString("valor_busqueda",t);
-                    mercado.setArguments(args);
+                    args.putString("valor_busqueda", t);
 
                     FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.contenido, mercado).commit();
+
+                    if (current == 0) {
+
+                        MercadoProductosFragment mercado = new MercadoProductosFragment();
+                        mercado.setArguments(args);
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        //transaction.addToBackStack(null);
+                        transaction.replace(R.id.contenido, mercado).commit();
+                    }
+
+                    if (current == 1) {
+                        MercadoTiendasFragment mercado = new MercadoTiendasFragment();
+                        mercado.setArguments(args);
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        //transaction.addToBackStack(null);
+                        transaction.replace(R.id.contenido, mercado).commit();
+                    }
 
                 }
                 return false;
@@ -124,6 +140,10 @@ public class MercadoFragment extends Fragment {
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
+                String t = busqueda.getText().toString();
+                Bundle args = new Bundle();
+                args.putString("valor_busqueda", t);
+
                 for (int i=0; i < 3 ; i++) {
                     TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
                     tv.setTextColor(Color.parseColor("#ffffff"));
@@ -135,25 +155,21 @@ public class MercadoFragment extends Fragment {
                 int current = tabHost.getCurrentTab();
                 if (current == 0) {
                     MercadoProductosFragment mercado = new MercadoProductosFragment();
-
-                    Bundle args = new Bundle();
-                    args.putInt("section_number", 100);
                     mercado.setArguments(args);
-
-
                     FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.contenido, mercado).commit();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    //transaction.addToBackStack(null);
+                    transaction.replace(R.id.contenido, mercado).commit();
                 }
 
                 if (current == 1) {
                     MercadoTiendasFragment mercado = new MercadoTiendasFragment();
-
-                    Bundle args = new Bundle();
-                    args.putInt("section_number", 100);
                     mercado.setArguments(args);
 
                     FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.contenido, mercado).commit();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    //transaction.addToBackStack(null);
+                    transaction.replace(R.id.contenido, mercado).commit();
                 }
             }
         });

@@ -16,12 +16,11 @@
             android:id="@+id/mensaje_busqueda"
             android:text="prueba"
             android:layout_marginLeft="8dp"
-            android:textSize="18dp"
-            />
+            android:textSize="18dp"/>
         <ListView
             android:id="@+id/listado_productos"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:divider="@null"
             android:dividerHeight="5dp">
         </ListView>

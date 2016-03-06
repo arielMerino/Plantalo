@@ -5,7 +5,8 @@
     android:background="@drawable/contenedor_redondo"
     android:paddingLeft="15dp"
     android:paddingRight="5dp"
-    android:paddingTop="5dp">
+    android:paddingTop="5dp"
+    android:paddingBottom="3dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -17,7 +18,9 @@
             android:textStyle="bold"
             android:textSize="20dp"
             android:textColor="@color/colorPrimaryDark"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,7 +32,9 @@
             android:textColor="@android:color/white"
             android:background="@drawable/marcador_redondo"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp"/>
+            android:paddingRight="5dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +44,8 @@
             android:layout_width="110dp"
             android:layout_height="110dp"
             android:id="@+id/imagen_producto"
-            android:background="@drawable/common_google_signin_btn_icon_dark_focused"/>
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,16 +55,20 @@
                 android:layout_height="90dp"
                 android:id="@+id/descripcion_producto"
                 android:text="Sin descripcion"
-                android:textSize="18dp"/>
+                android:textSize="14dp"
+                android:capitalize="sentences"
+                android:textAlignment="center"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
             <TextView
                 android:id="@+id/precio_producto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$0"
                 android:textSize="20dp"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
         </LinearLayout>
     </LinearLayout>
-
-
 </LinearLayout>
