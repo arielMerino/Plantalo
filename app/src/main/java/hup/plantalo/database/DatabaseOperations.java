@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
  * Created by eliasPlease on 02-03-2016.
@@ -29,7 +28,7 @@ public class DatabaseOperations extends SQLiteOpenHelper {
 
     public DatabaseOperations(Context context) {
         super(context, CultivosTable.TableInfoCultivos.DATABASE_NAME, null, database_version);
-        Log.d("Database operation", "Database created");
+        //Log.d("Database operation", "Database created");
     }
 
     @Override
@@ -38,7 +37,7 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         sdb.execSQL(create_table_cultivos_query);
         sdb.execSQL(create_table_comentarios_tips_query);
         sdb.execSQL(create_table_mis_cultivos_query);
-        Log.d("Database operation", "Database created");
+        //Log.d("Database operation", "Database created");
     }
 
     @Override
@@ -52,14 +51,14 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         cv.put(CultivosTable.TableInfoCultivos.CULTIVO_DESCRIPTION, descripcion);
         cv.put(CultivosTable.TableInfoCultivos.CULTIVO_IMAGE, imagen);
         long k = SQ.insert(CultivosTable.TableInfoCultivos.TABLE_NAME, null, cv);
-        Log.d("Database Operations", "Se ha insertado una fila");
+        //Log.d("Database Operations", "Se ha insertado una fila");
     }
 
     public Cursor obtenerCultivos(DatabaseOperations dbop){
         SQLiteDatabase SQ = dbop.getReadableDatabase();
         String[] columns = {CultivosTable.TableInfoCultivos.CULTIVO_NAME, CultivosTable.TableInfoCultivos.CULTIVO_DESCRIPTION, CultivosTable.TableInfoCultivos.CULTIVO_IMAGE};
         Cursor CR = SQ.query(CultivosTable.TableInfoCultivos.TABLE_NAME, columns, null, null, null, null, null);
-        Log.d("Obtener cultivo", "Se han obtenido " + CR.getCount() + " cultivos");
+        //Log.d("Obtener cultivo", "Se han obtenido " + CR.getCount() + " cultivos");
         return CR;
     }
 
@@ -85,14 +84,14 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         cv.put(ComentariosTipsTable.TableInfoComentariosTips.CULTIVO,comentario_de_cultivo);
         cv.put(ComentariosTipsTable.TableInfoComentariosTips.IMAGEN_AUTOR,imagen_autor);
         long k = SQ.insert(ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME, null, cv);
-        Log.d("Database operations", "Se ha insertado un comentario");
+        //Log.d("Database operations", "Se ha insertado un comentario");
     }
 
     public Cursor obtenerComentariosTips(DatabaseOperations dbop){
         SQLiteDatabase SQ = dbop.getReadableDatabase();
         String[] columns = {ComentariosTipsTable.TableInfoComentariosTips.AUTOR, ComentariosTipsTable.TableInfoComentariosTips.CONTENIDO, ComentariosTipsTable.TableInfoComentariosTips.FECHA, ComentariosTipsTable.TableInfoComentariosTips.TIPO, ComentariosTipsTable.TableInfoComentariosTips.CULTIVO, ComentariosTipsTable.TableInfoComentariosTips.IMAGEN_AUTOR};
         Cursor CR = SQ.query(ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME, columns, null, null, null, null, null);
-        Log.d("Obtener comentario", "Se han logrado obtener " + CR.getCount() + " los comentarios");
+        //Log.d("Obtener comentario", "Se han logrado obtener " + CR.getCount() + " los comentarios");
         return CR;
     }
 
@@ -101,7 +100,7 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(MisCultivosTable.TableMisCultivosInfo.CULTIVO, nombreCultivo);
         long k = SQ.insert(MisCultivosTable.TableMisCultivosInfo.TABLE_NAME, null, cv);
-        Log.d("Database operations", "Se ha insertado un nuevo cultivo a Mis cultivos");
+        //Log.d("Database operations", "Se ha insertado un nuevo cultivo a Mis cultivos");
     }
 
     public Cursor obtenerComentariosDeMisCultivos(DatabaseOperations dbop){
@@ -109,7 +108,7 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         Cursor cursor = SQ.rawQuery("SELECT * FROM " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + ", " + MisCultivosTable.TableMisCultivosInfo.TABLE_NAME +
                 " WHERE " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + "." + ComentariosTipsTable.TableInfoComentariosTips.CULTIVO + " = " + MisCultivosTable.TableMisCultivosInfo.TABLE_NAME + "." + MisCultivosTable.TableMisCultivosInfo.CULTIVO +
                 " AND " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + "." + ComentariosTipsTable.TableInfoComentariosTips.TIPO + " = 'c'", null);
-        Log.d("CURSOR", "El cusor encontro " + cursor.getCount() + " resultados");
+        //Log.d("CURSOR", "El cusor encontro " + cursor.getCount() + " resultados");
         return cursor;
     }
 
@@ -118,7 +117,7 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         Cursor cursor = SQ.rawQuery("SELECT * FROM " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + ", " + MisCultivosTable.TableMisCultivosInfo.TABLE_NAME +
                 " WHERE " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + "." + ComentariosTipsTable.TableInfoComentariosTips.CULTIVO + " = " + MisCultivosTable.TableMisCultivosInfo.TABLE_NAME + "." + MisCultivosTable.TableMisCultivosInfo.CULTIVO +
                 " AND " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + "." + ComentariosTipsTable.TableInfoComentariosTips.TIPO + " = 't'", null);
-        Log.d("CURSOR", "El cusor encontro " + cursor.getCount() + " resultados");
+        //Log.d("CURSOR", "El cusor encontro " + cursor.getCount() + " resultados");
         return cursor;
     }
 }

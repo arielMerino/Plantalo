@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,10 @@ public class Cultivo extends AppCompatActivity {
 
     ImageView imagen;
     TextView nombre;
+    TextView comentar;
+    TextView tips;
+    TextView calificar;
+    TextView seguir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,17 @@ public class Cultivo extends AppCompatActivity {
         imagen = (ImageView) findViewById(R.id.imagenCultivo);
         Uri uri = Uri.parse(cursor.getString(2));
         imagen.setImageURI(uri);
+
+        comentar = (TextView) findViewById(R.id.text_comentar);
+        comentar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CultivoComentar.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     @Override

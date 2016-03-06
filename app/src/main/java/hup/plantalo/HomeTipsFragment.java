@@ -1,11 +1,13 @@
 package hup.plantalo;
 
 import android.app.Activity;
-import android.graphics.Color;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
@@ -14,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -25,24 +26,20 @@ import hup.plantalo.database.DatabaseOperations;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link HomeFragment.OnFragmentInteractionListener} interface
+ * {@link HomeTipsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
+ * Use the {@link HomeTipsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeTipsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final String ARG_SECTION_NUMBER = "section_number";
-    ListView listadoComentarios;
-    ListView listadoTips;
-    MyAdapter myAdapterComentarios;
-    MyAdapter myAdapterTips;
-    ArrayList<ListViewComentario> filas;
+
     ArrayList<ListViewComentario> filasTips;
-    TabHost tabHost;
+    MyAdapter myAdapterTips;
+    ListView listadoTips;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -56,11 +53,11 @@ public class HomeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
+     * @return A new instance of fragment HomeTipsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
+    public static HomeTipsFragment newInstance(String param1, String param2) {
+        HomeTipsFragment fragment = new HomeTipsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -68,7 +65,7 @@ public class HomeFragment extends Fragment {
         return fragment;
     }
 
-    public HomeFragment() {
+    public HomeTipsFragment() {
         // Required empty public constructor
     }
 
@@ -79,84 +76,49 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        filas = new ArrayList<>();
         filasTips = new ArrayList<>();
-        HomeTipsFragment tipsFragment = new HomeTipsFragment();
-        Bundle args = new Bundle();
-        args.putInt("section_number", 100);
-        tipsFragment.setArguments(args);
-
-
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.contenidoFragment, tipsFragment).commit();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_home2, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_home_tips, container, false);
         DatabaseOperations dbop = new DatabaseOperations(getActivity());
+        int contador = 0;
 
-        tabHost = (TabHost)rootView.findViewById(R.id.tabHostHome);
-        tabHost.setup();
-        TabHost.TabSpec tab1 = tabHost.newTabSpec("tab1");
-        TabHost.TabSpec tab2 = tabHost.newTabSpec("tab2");
-
-        tab1.setIndicator("Tips");
-        tab1.setContent(R.id.ejemplo1Home);
-
-        tab2.setIndicator("Comentarios");
-        tab2.setContent(R.id.ejemplo2Home);
-
-        tabHost.addTab(tab1);
-        tabHost.addTab(tab2);
-
-        for (int i=0; i < 2 ; i++) {
-            TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
-            tv.setTextColor(Color.parseColor("#ffffff"));
+        //Listview tips
+        listadoTips = (ListView) rootView.findViewById(R.id.listado_home_tips);
+        Cursor cursorTips = dbop.obtenerTipsDeMisCultivos(dbop);
+        cursorTips.moveToPosition(-1);
+        while(cursorTips.moveToNext()){
+            filasTips.add(new ListViewComentario(cursorTips.getString(0),cursorTips.getString(1),cursorTips.getString(2), cursorTips.getString(4), cursorTips.getString(5)));
+            contador++;
         }
-        TextView tv1 = (TextView) tabHost.getCurrentTabView().findViewById(android.R.id.title);
-        tv1.setTextColor(Color.parseColor("#96FCB0"));
+        myAdapterTips = new MyAdapter(getActivity(), filasTips);
+        listadoTips.setAdapter(myAdapterTips);
 
-        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+        //cuadro de dialogo... cargando
+        Handler mHandler = new Handler();
+        final ProgressDialog mDialog = ProgressDialog.show(getActivity(), "Espere un momento...", "Cargando informacion", true, false);
+
+        Thread thread = new Thread();
+        thread.start();
+
+        mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
-            public void onTabChanged(String tabId) {
-                for (int i = 0; i < 2; i++) {
-                    TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
-                    tv.setTextColor(Color.parseColor("#ffffff"));
-                }
-
-                TextView tv = (TextView) tabHost.getCurrentTabView().findViewById(android.R.id.title);
-                tv.setTextColor(Color.parseColor("#96FCB0"));
-
-                int current = tabHost.getCurrentTab();
-                if (current == 0) {
-                    HomeTipsFragment comentarios = new HomeTipsFragment();
-
-                    Bundle args = new Bundle();
-                    args.putInt("section_number", 100);
-                    comentarios.setArguments(args);
-
-
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.contenidoFragment, comentarios).commit();
-                }
-
-                if (current == 1) {
-                    HomeComentariosFragment tips = new HomeComentariosFragment();
-
-                    Bundle args = new Bundle();
-                    args.putInt("section_number", 100);
-                    tips.setArguments(args);
-
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.contenidoFragment, tips).commit();
-                }
+            public void onDismiss(DialogInterface dialogInterface) {
+                // EL usuario cerró el dialog
             }
         });
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mDialog.dismiss();
+            }
+        }, 2000);
 
-        return rootView;
+        return  rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -169,8 +131,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((Home) activity).onSectionAttached(
-                getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
     @Override

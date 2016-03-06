@@ -50,6 +50,10 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" >
         </activity>
+        <activity
+            android:name=".CultivoComentar"
+            android:label="@string/title_activity_cultivo_comentar" >
+        </activity>
     </application>
 
 </manifest>

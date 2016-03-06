@@ -2,42 +2,47 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="hup.plantalo.HomeFragment"
     android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ultimos Tips"
-        android:textSize="@dimen/menu_text_size"
-        android:textStyle="bold"
-        android:layout_marginBottom="5dp"/>
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/listado_home_tips"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:dividerHeight="5dp"
-        android:scrollbars="none"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ultimos comentarios de tus cultivos"
-        android:textSize="@dimen/menu_text_size"
-        android:textStyle="bold"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="20dp"/>
-    <ListView
+    <TabHost
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listado_home_comentarios"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:dividerHeight="5dp"
-        android:scrollbars="none" />
+        android:id="@+id/tabHostHome"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorPrimary">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/ejemplo1Home"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"></LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ejemplo2Home"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"></LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+    <LinearLayout
+        android:id="@+id/contenidoFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    </LinearLayout>
 </LinearLayout>

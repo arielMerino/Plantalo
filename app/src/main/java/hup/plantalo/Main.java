@@ -91,6 +91,7 @@ public class Main extends AppCompatActivity {
 
             bd.agregarMiCultivo(bd, "Tomate");
             bd.agregarMiCultivo(bd, "Zanahoria");
+            bd.agregarMiCultivo(bd, "Lechuga");
 
             bd.close();
         }
