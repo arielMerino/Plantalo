@@ -1,0 +1,19 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="hup.plantalo.CultivoTips">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Tips..."
+        android:textSize="@dimen/place_autocomplete_progress_size"
+        android:inputType="textMultiLine"
+        android:gravity="start"
+        android:id="@+id/editTextPublicarTips"
+        android:background="@android:color/transparent"/>
+
+</RelativeLayout>
