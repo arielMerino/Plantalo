@@ -3,8 +3,6 @@ package hup.plantalo;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,18 +19,17 @@ import java.util.ArrayList;
 
 import hup.plantalo.database.CultivosTable;
 import hup.plantalo.database.DatabaseOperations;
-import hup.plantalo.database.MisCultivosTable;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MisCultivosFragment.OnFragmentInteractionListener} interface
+ * {@link CultivosFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MisCultivosFragment#newInstance} factory method to
+ * Use the {@link CultivosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MisCultivosFragment extends Fragment {
+public class CultivosFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -42,8 +39,9 @@ public class MisCultivosFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
     MyAdapter myAdapter;
-    ArrayList<String> filas;
+    ArrayList<CultivosClass> filas;
     ListView listado;
 
     private OnFragmentInteractionListener mListener;
@@ -54,11 +52,11 @@ public class MisCultivosFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MisCultivos.
+     * @return A new instance of fragment CultivosFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MisCultivosFragment newInstance(String param1, String param2) {
-        MisCultivosFragment fragment = new MisCultivosFragment();
+    public static CultivosFragment newInstance(String param1, String param2) {
+        CultivosFragment fragment = new CultivosFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,7 +64,7 @@ public class MisCultivosFragment extends Fragment {
         return fragment;
     }
 
-    public MisCultivosFragment() {
+    public CultivosFragment() {
         // Required empty public constructor
     }
 
@@ -84,17 +82,19 @@ public class MisCultivosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_mis_cultivos, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_cultivos_home, container, false);
+
         listado = (ListView) rootView.findViewById(R.id.listado_mis_cultivos);
 
         //filas.add(new CultivosClass("Tomate", "Son muy buenos", BitmapFactory.decodeResource(this.getResources(), R.drawable.tomates)));
         //filas.add(new CultivosClass("Papa", "Papas del norte de Chile", BitmapFactory.decodeResource(this.getResources(), R.drawable.papas)));
-        DatabaseOperations dbop = new DatabaseOperations(getActivity());
-        final Cursor cursor = dbop.obtenerMisCultivos(dbop);
+        final DatabaseOperations dbop = new DatabaseOperations(getActivity());
+        final Cursor cursor = dbop.obtenerCultivos(dbop);
         cursor.moveToPosition(-1);
+        int contador = 0;
         //cursor.moveToFirst();
         while(cursor.moveToNext()){
-            filas.add(cursor.getString(cursor.getColumnIndex(MisCultivosTable.TableMisCultivosInfo.CULTIVO)));
+            filas.add(new CultivosClass(cursor.getString(cursor.getColumnIndex(CultivosTable.TableInfoCultivos.CULTIVO_NAME)), cursor.getString(cursor.getColumnIndex(CultivosTable.TableInfoCultivos.CULTIVO_DESCRIPTION)), cursor.getString(cursor.getColumnIndex(CultivosTable.TableInfoCultivos.CULTIVO_IMAGE))));
         }
 
         myAdapter = new MyAdapter(getActivity(), filas);
@@ -103,47 +103,23 @@ public class MisCultivosFragment extends Fragment {
         listado.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), MiCultivo.class);
+
                 cursor.moveToPosition(position);
-                intent.putExtra("fila", cursor.getString(cursor.getColumnIndex(MisCultivosTable.TableMisCultivosInfo.CULTIVO)));
-                startActivity(intent);
+                Cursor cursorMiCultivo = dbop.obtenerMiCultivo(dbop, cursor.getString(cursor.getColumnIndex(CultivosTable.TableInfoCultivos.CULTIVO_NAME)));
+                if (cursorMiCultivo.getCount() == 0){
+                    Intent intent = new Intent(getContext(), Cultivo.class);
+                    intent.putExtra("fila", cursor.getString(cursor.getColumnIndex(CultivosTable.TableInfoCultivos.CULTIVO_NAME)));
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getContext(), MiCultivo.class);
+                    intent.putExtra("fila", cursor.getString(cursor.getColumnIndex(CultivosTable.TableInfoCultivos.CULTIVO_NAME)));
+                    startActivity(intent);
+                }
             }
         });
 
         return rootView;
-    }
-
-    public static Bitmap getImage(byte[] image) {
-        return BitmapFactory.decodeByteArray(image, 0, image.length);
-    }
-
-    private class MyAdapter extends ArrayAdapter<String> {
-
-        private final Activity context;
-        private ArrayList<String> filas;
-
-        public MyAdapter(Activity context, ArrayList<String> filas) {
-            super(context, R.layout.casilla_mis_cultivos, filas);
-            this.context = context;
-            this.filas = filas;
-        }
-        public View getView(int position,View view,ViewGroup parent) {
-            LayoutInflater inflater=context.getLayoutInflater();
-            View rowView=inflater.inflate(R.layout.casilla_mis_cultivos, null, true);
-
-            TextView nombre = (TextView) rowView.findViewById(R.id.texto);
-            ImageView imagen = (ImageView) rowView.findViewById(R.id.imagen_casilla);
-
-            nombre.setText(filas.get(position));
-
-            DatabaseOperations dbop = new DatabaseOperations(getActivity());
-            Cursor cursor = dbop.obtenerCultivo(dbop, filas.get(position));
-            cursor.moveToPosition(0);
-            Uri uri = Uri.parse(cursor.getString(cursor.getColumnIndex(CultivosTable.TableInfoCultivos.CULTIVO_IMAGE)));
-            imagen.setImageURI(uri);
-            return rowView;
-
-        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -179,6 +155,32 @@ public class MisCultivosFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    private class MyAdapter extends ArrayAdapter<CultivosClass> {
+
+        private final Activity context;
+        private ArrayList<CultivosClass> filas;
+
+        public MyAdapter(Activity context, ArrayList<CultivosClass> filas) {
+            super(context, R.layout.casilla_mis_cultivos, filas);
+            this.context = context;
+            this.filas = filas;
+        }
+        public View getView(int position,View view,ViewGroup parent) {
+            LayoutInflater inflater=context.getLayoutInflater();
+            View rowView=inflater.inflate(R.layout.casilla_mis_cultivos, null, true);
+
+            TextView nombre = (TextView) rowView.findViewById(R.id.texto);
+            ImageView imagen = (ImageView) rowView.findViewById(R.id.imagen_casilla);
+
+            nombre.setText(filas.get(position).getNombre());
+
+            Uri uri = Uri.parse(filas.get(position).getImagen());
+            imagen.setImageURI(uri);
+            return rowView;
+
+        }
     }
 
 }

@@ -11,7 +11,10 @@
     android:gravity="center_vertical"
     android:orientation="vertical"
     tools:context="hup.plantalo.Main">
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imagenprueba" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,8 +27,4 @@
         android:id="@+id/modo_cliente"
         android:text="Modo Cliente"
         android:layout_gravity="center_horizontal"/>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imagenprueba"/>
 </LinearLayout>

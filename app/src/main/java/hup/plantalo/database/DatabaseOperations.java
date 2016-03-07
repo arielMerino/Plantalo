@@ -62,6 +62,14 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         return CR;
     }
 
+    public Cursor obtenerCultivo(DatabaseOperations dbop, String nombre){
+        SQLiteDatabase SQ = dbop.getReadableDatabase();
+        Cursor cursor = SQ.rawQuery("SELECT * FROM " + CultivosTable.TableInfoCultivos.TABLE_NAME +
+                " WHERE " + CultivosTable.TableInfoCultivos.TABLE_NAME + "." + CultivosTable.TableInfoCultivos.CULTIVO_NAME + " = '" + nombre + "'", null);
+        //Log.d("CURSOR", "El cusor encontro " + cursor.getCount() + " resultados");
+        return cursor;
+    }
+
     public boolean dbExiste(DatabaseOperations dbop){
         SQLiteDatabase SQ = dbop.getReadableDatabase();
         String[] columns = {CultivosTable.TableInfoCultivos.CULTIVO_NAME, CultivosTable.TableInfoCultivos.CULTIVO_DESCRIPTION, CultivosTable.TableInfoCultivos.CULTIVO_IMAGE};
@@ -103,11 +111,41 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         //Log.d("Database operations", "Se ha insertado un nuevo cultivo a Mis cultivos");
     }
 
+    public Cursor obtenerMisCultivos(DatabaseOperations dbop){
+        SQLiteDatabase SQ = dbop.getReadableDatabase();
+        String[] columns = {MisCultivosTable.TableMisCultivosInfo.CULTIVO};
+        Cursor CR = SQ.query(MisCultivosTable.TableMisCultivosInfo.TABLE_NAME, columns, null, null, null, null, null);
+        //Log.d("Obtener cultivo", "Se han obtenido " + CR.getCount() + " cultivos");
+        return CR;
+    }
+
+    public Cursor obtenerMiCultivo(DatabaseOperations dbop, String nombre){
+        SQLiteDatabase SQ = dbop.getReadableDatabase();
+        Cursor cursor = SQ.rawQuery("SELECT * FROM " + MisCultivosTable.TableMisCultivosInfo.TABLE_NAME +
+                " WHERE " + MisCultivosTable.TableMisCultivosInfo.TABLE_NAME + "." + MisCultivosTable.TableMisCultivosInfo.CULTIVO + " = '" + nombre + "'", null);
+        //Log.d("CURSOR", "El cusor encontro " + cursor.getCount() + " resultados");
+        return cursor;
+    }
+
+    public int eliminarMiCultivo(DatabaseOperations dbop, String nombre){
+        SQLiteDatabase SQ = dbop.getReadableDatabase();
+        return SQ.delete(MisCultivosTable.TableMisCultivosInfo.TABLE_NAME, MisCultivosTable.TableMisCultivosInfo.CULTIVO + " = '" + nombre + "'", null);
+    }
+
     public Cursor obtenerComentariosDeMisCultivos(DatabaseOperations dbop){
         SQLiteDatabase SQ = dbop.getReadableDatabase();
         Cursor cursor = SQ.rawQuery("SELECT * FROM " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + ", " + MisCultivosTable.TableMisCultivosInfo.TABLE_NAME +
                 " WHERE " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + "." + ComentariosTipsTable.TableInfoComentariosTips.CULTIVO + " = " + MisCultivosTable.TableMisCultivosInfo.TABLE_NAME + "." + MisCultivosTable.TableMisCultivosInfo.CULTIVO +
-                " AND " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + "." + ComentariosTipsTable.TableInfoComentariosTips.TIPO + " = 'c'", null);
+                " AND " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + "." + ComentariosTipsTable.TableInfoComentariosTips.TIPO + " = 'c' ORDER BY " + ComentariosTipsTable.TableInfoComentariosTips.FECHA + " DESC limit 6", null);
+        //Log.d("CURSOR", "El cusor encontro " + cursor.getCount() + " resultados");
+        return cursor;
+    }
+
+    public Cursor obtenerComentariosDeMiCultivo(DatabaseOperations dbop, String nombreCultivo){
+        SQLiteDatabase SQ = dbop.getReadableDatabase();
+        Cursor cursor = SQ.rawQuery("SELECT * FROM " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + ", " + MisCultivosTable.TableMisCultivosInfo.TABLE_NAME +
+                " WHERE " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + "." + ComentariosTipsTable.TableInfoComentariosTips.CULTIVO + " = '" + nombreCultivo +
+                "' ORDER BY " + ComentariosTipsTable.TableInfoComentariosTips.FECHA + " DESC limit 6", null);
         //Log.d("CURSOR", "El cusor encontro " + cursor.getCount() + " resultados");
         return cursor;
     }
@@ -116,7 +154,7 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         SQLiteDatabase SQ = dbop.getReadableDatabase();
         Cursor cursor = SQ.rawQuery("SELECT * FROM " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + ", " + MisCultivosTable.TableMisCultivosInfo.TABLE_NAME +
                 " WHERE " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + "." + ComentariosTipsTable.TableInfoComentariosTips.CULTIVO + " = " + MisCultivosTable.TableMisCultivosInfo.TABLE_NAME + "." + MisCultivosTable.TableMisCultivosInfo.CULTIVO +
-                " AND " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + "." + ComentariosTipsTable.TableInfoComentariosTips.TIPO + " = 't'", null);
+                " AND " + ComentariosTipsTable.TableInfoComentariosTips.TABLE_NAME + "." + ComentariosTipsTable.TableInfoComentariosTips.TIPO + " = 't' ORDER BY " + ComentariosTipsTable.TableInfoComentariosTips.FECHA + " DESC limit 6", null);
         //Log.d("CURSOR", "El cusor encontro " + cursor.getCount() + " resultados");
         return cursor;
     }

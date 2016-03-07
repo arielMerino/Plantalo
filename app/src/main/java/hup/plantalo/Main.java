@@ -30,6 +30,10 @@ public class Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
 
+        imagenPrueba = (ImageView) findViewById(R.id.imagenprueba);
+        Uri uri = Uri.parse("android.resource://"+this.getPackageName() + "/" + R.drawable.logoplantalo);
+        imagenPrueba.setImageURI(uri);
+
         bd = new DatabaseOperations(getApplicationContext());
         if (!bd.dbExiste(bd)) {
             Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.tomates);
@@ -48,9 +52,6 @@ public class Main extends AppCompatActivity {
             String imagen_roberto = "android.resource://"+this.getPackageName()+"/" + R.drawable.roberto;
             String imagen_nicolas = "android.resource://"+this.getPackageName()+"/" + R.drawable.nicolas;
 
-            imagenPrueba = (ImageView) findViewById(R.id.imagenprueba);
-            Uri uri = Uri.parse("android.resource://"+this.getPackageName() + "/" + R.drawable.tomates);
-            imagenPrueba.setImageURI(uri);
 
             Log.d("Recursos", "La uri es: " + uri1);
 
@@ -72,7 +73,7 @@ public class Main extends AppCompatActivity {
             bd.agregarComentarioTips(bd, "Elias Sobarzo", "La papa es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Papa", imagen_elias);
             bd.agregarComentarioTips(bd, "Roberto Sandoval", "El tomate es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Tomate", imagen_roberto);
             bd.agregarComentarioTips(bd, "Nicolas Uribe", "El Zanahoria es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Zanahoria", imagen_nicolas);
-            bd.agregarComentarioTips(bd, "Ariel Meriño", "El tomate es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Tomate", imagen_ariel);
+            bd.agregarComentarioTips(bd, "Ariel Meriño", "El tomate es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Tomate", imagen_ariel);
             bd.agregarComentarioTips(bd, "Elias Sobarzo", "La zanahoria es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Zanahoria", imagen_elias);
             bd.agregarComentarioTips(bd, "Roberto Sandoval", "La lechuga es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Lechuga", imagen_roberto);
             bd.agregarComentarioTips(bd, "Nicolas Uribe", "La papa es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Papa", imagen_nicolas);
@@ -86,7 +87,7 @@ public class Main extends AppCompatActivity {
             bd.agregarComentarioTips(bd, "Nicolas Uribe", "La papa es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Papa", imagen_nicolas);
             bd.agregarComentarioTips(bd, "Ariel Meriño", "La lechuga es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Lechuga", imagen_ariel);
             bd.agregarComentarioTips(bd, "Elias Sobarzo", "La papa es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Papa", imagen_elias);
-            bd.agregarComentarioTips(bd, "Roberto Sandoval", "El tomate es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "c", "Tomate", imagen_roberto);
+            bd.agregarComentarioTips(bd, "Roberto Sandoval", "El tomate es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Tomate", imagen_roberto);
             bd.agregarComentarioTips(bd, "Nicolas Uribe", "El Zanahoria es un buen cultivo como para empezar. A mi me tiene muy satisfecho", fechaHoy, "t", "Zanahoria", imagen_nicolas);
 
             bd.agregarMiCultivo(bd, "Tomate");

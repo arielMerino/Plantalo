@@ -13,22 +13,21 @@ import java.util.Date;
 
 import hup.plantalo.database.DatabaseOperations;
 
-public class CultivoComentar extends AppCompatActivity {
+public class CultivoTips extends AppCompatActivity {
 
-    EditText editTextComentario;
+    EditText editTextTips;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cultivo_comentar);
-        editTextComentario = (EditText) findViewById(R.id.editTextPublicar);
-
+        setContentView(R.layout.activity_cultivo_tips);
+        editTextTips = (EditText) findViewById(R.id.editTextPublicarTips);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_cultivo_comentar, menu);
+        getMenuInflater().inflate(R.menu.menu_cultivo_tips, menu);
         return true;
     }
 
@@ -40,7 +39,7 @@ public class CultivoComentar extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.publicar){
+        if (id == R.id.publicarTips) {
             DatabaseOperations db = new DatabaseOperations(getApplicationContext());
             Intent intent = getIntent();
             DateFormat date = new SimpleDateFormat("yyyyMMdd hhmmss");
@@ -48,7 +47,7 @@ public class CultivoComentar extends AppCompatActivity {
             Date today = new Date();
             String fechaHoy = date.format(today);
             String[] datos = intent.getStringArrayExtra("datos_usuario");
-            db.agregarComentarioTips(db, "Elias Sobarzo", editTextComentario.getText().toString(), fechaHoy, "c", intent.getStringArrayExtra("datos_cultivo")[0],"android.resource://"+this.getPackageName()+"/" + R.drawable.elias);
+            db.agregarComentarioTips(db, "Elias Sobarzo", editTextTips.getText().toString(), fechaHoy, "t", intent.getStringArrayExtra("datos_cultivo")[0],"android.resource://"+this.getPackageName()+"/" + R.drawable.elias);
             finish();
         }
 

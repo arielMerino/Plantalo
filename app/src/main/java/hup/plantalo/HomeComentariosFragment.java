@@ -1,12 +1,9 @@
 package hup.plantalo;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.Spanned;
@@ -94,30 +91,11 @@ public class HomeComentariosFragment extends Fragment {
         Cursor cursor = dbop.obtenerComentariosDeMisCultivos(dbop);
         cursor.moveToPosition(-1);
         while (cursor.moveToNext()) {
-            filas.add(new ListViewComentario(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(4), cursor.getString(5)));
+            filas.add(new ListViewComentario(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(4), cursor.getString(5), cursor.getString(3)));
             contador++;
         }
         myAdapterComentarios = new MyAdapter(getActivity(), filas);
         listadoComentarios.setAdapter(myAdapterComentarios);
-
-        Handler mHandler = new Handler();
-        final ProgressDialog mDialog = ProgressDialog.show(getActivity(), "Espere un momento...", "Cargando informacion", true, false);
-
-        Thread thread = new Thread();
-        thread.start();
-
-        mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                // EL usuario cerró el dialog
-            }
-        });
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mDialog.dismiss();
-            }
-        }, 2000);
 
         return rootView;
     }

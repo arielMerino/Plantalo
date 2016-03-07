@@ -1,12 +1,9 @@
 package hup.plantalo;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.Spanned;
@@ -92,31 +89,11 @@ public class HomeTipsFragment extends Fragment {
         Cursor cursorTips = dbop.obtenerTipsDeMisCultivos(dbop);
         cursorTips.moveToPosition(-1);
         while(cursorTips.moveToNext()){
-            filasTips.add(new ListViewComentario(cursorTips.getString(0),cursorTips.getString(1),cursorTips.getString(2), cursorTips.getString(4), cursorTips.getString(5)));
+            filasTips.add(new ListViewComentario(cursorTips.getString(0),cursorTips.getString(1),cursorTips.getString(2), cursorTips.getString(4), cursorTips.getString(5), cursorTips.getString(3)));
             contador++;
         }
         myAdapterTips = new MyAdapter(getActivity(), filasTips);
         listadoTips.setAdapter(myAdapterTips);
-
-        //cuadro de dialogo... cargando
-        Handler mHandler = new Handler();
-        final ProgressDialog mDialog = ProgressDialog.show(getActivity(), "Espere un momento...", "Cargando informacion", true, false);
-
-        Thread thread = new Thread();
-        thread.start();
-
-        mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                // EL usuario cerró el dialog
-            }
-        });
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mDialog.dismiss();
-            }
-        }, 2000);
 
         return  rootView;
     }

@@ -34,52 +34,13 @@
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal">
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/text_comentar"
-            android:text="Comentar"
-            android:layout_margin="@dimen/abc_action_bar_content_inset_material"
-            android:clickable="true"/>
-        <View
-            android:layout_width="0.3dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/text_tips"
-            android:text="Dejar un tip"
-            android:layout_margin="@dimen/abc_action_bar_content_inset_material"
-            android:clickable="true"/>
-        <View
-            android:layout_width="0.3dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/text_calificar"
-            android:text="Calificar"
-            android:layout_margin="@dimen/abc_action_bar_content_inset_material"
-            android:clickable="true"/>
-        <View
-            android:layout_width="0.3dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"/>
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/text_seguir"
-            android:text="Seguir"
+            android:text="Plántalo"
             android:layout_margin="@dimen/abc_action_bar_content_inset_material"/>
     </LinearLayout>
-
-
-
     <View
         android:layout_width="match_parent"
         android:layout_height="0.3dp"

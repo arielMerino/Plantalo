@@ -2,8 +2,6 @@ package hup.plantalo;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,11 +15,9 @@ import hup.plantalo.database.DatabaseOperations;
 
 public class Cultivo extends AppCompatActivity {
 
-    ImageView imagen;
     TextView nombre;
-    TextView comentar;
-    TextView tips;
-    TextView calificar;
+    Cursor cursor;
+    ImageView imagen;
     TextView seguir;
 
     @Override
@@ -30,11 +26,11 @@ public class Cultivo extends AppCompatActivity {
         setContentView(R.layout.activity_cultivo);
 
         Intent intent = getIntent();
-        int posicionRecibida = intent.getIntExtra("fila", -1);
+        String posicionRecibida = intent.getStringExtra("fila");
 
-        DatabaseOperations dbop = new DatabaseOperations(getApplicationContext());
-        Cursor cursor = dbop.obtenerCultivos(dbop);
-        cursor.moveToPosition(posicionRecibida);
+        final DatabaseOperations dbop = new DatabaseOperations(getApplicationContext());
+        cursor = dbop.obtenerCultivo(dbop, posicionRecibida);
+        cursor.moveToPosition(0);
 
         nombre = (TextView) findViewById(R.id.nombreCultivo);
         nombre.setText(cursor.getString(0));
@@ -43,16 +39,17 @@ public class Cultivo extends AppCompatActivity {
         Uri uri = Uri.parse(cursor.getString(2));
         imagen.setImageURI(uri);
 
-        comentar = (TextView) findViewById(R.id.text_comentar);
-        comentar.setOnClickListener(new View.OnClickListener() {
+        seguir = (TextView) findViewById(R.id.text_seguir);
+        seguir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CultivoComentar.class);
+                dbop.agregarMiCultivo(dbop, cursor.getString(0));
+                Intent intent = new Intent(getApplicationContext(), MiCultivo.class);
+                intent.putExtra("fila", cursor.getString(0));
                 startActivity(intent);
+                finish();
             }
         });
-
-
     }
 
     @Override
@@ -75,9 +72,5 @@ public class Cultivo extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public static Bitmap getImage(byte[] image) {
-        return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 }

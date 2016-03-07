@@ -9,13 +9,23 @@ public class ListViewComentario {
     private String fecha;
     private String cultivo;
     private String imagenAutor;
+    private String tipo;
 
-    public ListViewComentario(String autor, String comentario, String fecha, String cultivo, String imagenAutor){
+    public ListViewComentario(String autor, String comentario, String fecha, String cultivo, String imagenAutor, String tipo){
         this.autor = autor;
         this.comentario = comentario;
         this.fecha = fecha;
         this.cultivo = cultivo;
         this.imagenAutor = imagenAutor;
+        this.tipo = tipo;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public String getImagenAutor() {
