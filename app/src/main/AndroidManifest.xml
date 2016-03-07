@@ -52,5 +52,4 @@
         <activity android:name=".ProductoActivity" />
         <activity android:name=".TiendaActivity"></activity>
     </application>
-
 </manifest>

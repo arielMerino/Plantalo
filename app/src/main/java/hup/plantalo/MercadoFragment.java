@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -33,7 +34,6 @@ public class MercadoFragment extends Fragment {
     TabHost tabHost;
     EditText busqueda;
     TextView salida;
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -169,6 +169,13 @@ public class MercadoFragment extends Fragment {
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     //transaction.addToBackStack(null);
+                    transaction.replace(R.id.contenido, mercado).commit();
+                }
+
+                if (current == 2) {
+                    MercadoMapaFragment mercado = new MercadoMapaFragment();
+                    mercado.setArguments(args);
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(R.id.contenido, mercado).commit();
                 }
             }

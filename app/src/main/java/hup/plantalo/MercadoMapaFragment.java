@@ -1,6 +1,8 @@
 package hup.plantalo;
 
 import android.content.Context;
+import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,21 +12,21 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MapaTiendaFragment.OnFragmentInteractionListener} interface
+ * {@link MercadoMapaFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MapaTiendaFragment#newInstance} factory method to
+ * Use the {@link MercadoMapaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MapaTiendaFragment extends Fragment {
+public class MercadoMapaFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -42,6 +44,9 @@ public class MapaTiendaFragment extends Fragment {
     String direccionesT[] = {"Direccion 1234"};
     String posiciones[] = {"-33.5287469;-70.6664111"};
 
+    public MercadoMapaFragment() {
+        // Required empty public constructor
+    }
 
     @Override
     public void onResume(){
@@ -61,24 +66,17 @@ public class MapaTiendaFragment extends Fragment {
         mapView.onPause();
     }
 
-
-
-
-    public MapaTiendaFragment() {
-        // Required empty public constructor
-    }
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MapaTiendaFragment.
+     * @return A new instance of fragment MercadoMapaFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MapaTiendaFragment newInstance(String param1, String param2) {
-        MapaTiendaFragment fragment = new MapaTiendaFragment();
+    public static MercadoMapaFragment newInstance(String param1, String param2) {
+        MercadoMapaFragment fragment = new MercadoMapaFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -99,31 +97,36 @@ public class MapaTiendaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_mapa_tienda, container, false);
+        View view = inflater.inflate(R.layout.fragment_mercado_mapa, container, false);
 
-        //MapFragment map = (MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.map);
-
-        mapView = (MapView) view.findViewById(R.id.map_tienda);
+        mapView = (MapView) view.findViewById(R.id.map_mercado);
         mapView.onCreate(savedInstanceState);
-
-        int pos = -1;
-        for (int i = 0; i < nombresT.length; i++) {
-            if (nombresT[i].toLowerCase().equalsIgnoreCase(getArguments().getString("tienda").toLowerCase())) {
-                pos = i;
-            }
-        }
-
-        double posicionX = Double.valueOf(posiciones[pos].split(";")[0]);
-        double posicionY = Double.valueOf(posiciones[pos].split(";")[1]);
-
         googleMap = mapView.getMap();
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         googleMap.setMyLocationEnabled(true);
-        Marker marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(posicionX, posicionY)).draggable(true).title(nombresT[pos]).snippet(direccionesT[pos]));
-        marker.showInfoWindow();
-        marker.setVisible(true);
-        marker.setAlpha(12.5f);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(posicionX, posicionY), 14.3f));
+        double pX = -33.4498735f;
+        double pY = -70.6888173f;
+
+        for (int i = 0; i < nombresT.length; i++) {
+            double posicionX = Double.valueOf(posiciones[i].split(";")[0]);
+            double posicionY = Double.valueOf(posiciones[i].split(";")[1]);
+            Marker marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(posicionX, posicionY)).draggable(true).title(nombresT[i]).snippet(direccionesT[i]));
+            marker.setAlpha(14f);
+            marker.showInfoWindow();
+        }
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(pX,pY),14.3f));
+
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                String tienda = marker.getTitle();
+                Intent intent = new Intent(getContext(), TiendaActivity.class);
+                intent.putExtra("tienda", tienda);
+                startActivity(intent);
+                return false;
+            }
+        });
 
         return view;
     }
