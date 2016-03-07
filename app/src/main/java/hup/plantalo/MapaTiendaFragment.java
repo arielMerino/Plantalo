@@ -1,37 +1,34 @@
 package hup.plantalo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.ArrayList;
-
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TiendaFragment.OnFragmentInteractionListener} interface
+ * {@link MapaTiendaFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TiendaFragment#newInstance} factory method to
+ * Use the {@link MapaTiendaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TiendaFragment extends Fragment {
+public class MapaTiendaFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final String ARG_NOMBRE_TIENDA = "tienda";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -39,24 +36,32 @@ public class TiendaFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    ImageView imagenTienda;
-    TextView descripcionTienda;
-    TextView correoTienda;
-    TextView fonoTienda;
-    TextView direccionTienda;
-    ListView listaProductos;
-    ArrayList<ProductoClass> productos;
+    GoogleMap googleMap;
+    MapView mapView;
 
-    /*Datos de las tiendas que estan registradas*/
-    String nombresT[] = {"Jardin Flaminia"};
-    String direccionesT[] = {"La cisterna no tengo idea el numero"};
-    String descripcionesT[] = {"Tienda de productos de jardinería, arbustos, árboles, flores y materiales de cultivo"};
-    String telefonosT[] = {"75298657"};
-    String correosT[] = {"jardin.flaminia@correo.cl"};
-    int imagenesT[] = {R.drawable.jardin_flaminia};
-    double valoracionesT[] = {5.9};
 
-    public TiendaFragment() {
+    @Override
+    public void onResume(){
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        mapView.onPause();
+    }
+
+
+
+
+    public MapaTiendaFragment() {
         // Required empty public constructor
     }
 
@@ -66,11 +71,11 @@ public class TiendaFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TiendaFragment.
+     * @return A new instance of fragment MapaTiendaFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TiendaFragment newInstance(String param1, String param2) {
-        TiendaFragment fragment = new TiendaFragment();
+    public static MapaTiendaFragment newInstance(String param1, String param2) {
+        MapaTiendaFragment fragment = new MapaTiendaFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -91,35 +96,21 @@ public class TiendaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_tienda, container, false);
+        View view = inflater.inflate(R.layout.fragment_mapa_tienda, container, false);
 
-        String tienda = getArguments().getString(ARG_NOMBRE_TIENDA);
-        productos = new ArrayList<>();
-        int t = -1;
+        //MapFragment map = (MapFragment) getActivity().getFragmentManager().findFragmentById(R.id.map);
 
-        ArrayList<ProductoClass> stock = new ArrayList<>();
+        mapView = (MapView) view.findViewById(R.id.map_tienda);
+        mapView.onCreate(savedInstanceState);
 
-        imagenTienda = (ImageView) view.findViewById(R.id.imagen_tienda_detalle);
-        descripcionTienda = (TextView) view.findViewById(R.id.descripcion_tienda_detalle);
-        correoTienda = (TextView) view.findViewById(R.id.correo_tienda_detalle);
-        fonoTienda = (TextView) view.findViewById(R.id.fono_tienda_detalle);
-        direccionTienda = (TextView) view.findViewById(R.id.direccion_tienda_detalle);
-        listaProductos = (ListView) view.findViewById(R.id.lista_productos_por_tienda);
+        googleMap = mapView.getMap();
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        googleMap.setMyLocationEnabled(true);
+        Marker marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(-33.5287469, -70.6664111)).draggable(true).title("Jardín Flaminia").snippet("dirección de la wea"));
+        marker.showInfoWindow();
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-33.5287469, -70.6664111),14f));
 
-        Log.i("informacion2", "onCreateView: "+tienda);
 
-        for (int i = 0; i < nombresT.length; i++) {
-            if (nombresT[i].toLowerCase().equalsIgnoreCase(tienda.toLowerCase())) {
-                t = i;
-                break;
-            }
-        }
-
-        imagenTienda.setImageResource(imagenesT[t]);
-        descripcionTienda.setText(descripcionesT[t]);
-        correoTienda.setText(correosT[t]);
-        direccionTienda.setText(direccionesT[t]);
-        fonoTienda.setText("(+56) 9 " + telefonosT[t]);
 
         return view;
     }

@@ -1,6 +1,7 @@
 package hup.plantalo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -118,7 +119,7 @@ public class MercadoTiendasFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i("informacion", "se ha seleccionado la tienda: "+ resultados.get(position).getNombre());
-
+                /*
                 Fragment fragmento = new TiendaFragment();
 
                 Bundle args = new Bundle();
@@ -130,7 +131,10 @@ public class MercadoTiendasFragment extends Fragment {
                 transaction.replace(R.id.container,fragmento);
                 transaction.addToBackStack(null);
                 transaction.commit();
-
+                */
+                Intent intent = new Intent(getContext(),TiendaActivity.class);
+                intent.putExtra("tienda",resultados.get(position).getNombre());
+                startActivity(intent);
             }
         });
 

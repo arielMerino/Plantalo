@@ -1,28 +1,35 @@
 package hup.plantalo;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 
 
-public class MercadoProductosFragment extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link ProductosTiendaFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link ProductosTiendaFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class ProductosTiendaFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final String ARG_SECTION_NUMBER = "section_number";
-    private static final String ARG_VALOR_BUSQUEDA = "valor_busqueda";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -30,25 +37,34 @@ public class MercadoProductosFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    TextView mensajeBusqueda;
-    ListView lista;
-    MyAdapter myAdapter;
+    public ProductosTiendaFragment() {
+        // Required empty public constructor
+    }
 
+    TextView nombreTienda;
+    TextView valoracionTienda;
+    ImageView imagenTienda;
+    TextView descripcionTienda;
+    TextView correoTienda;
+    TextView fonoTienda;
+    TextView direccionTienda;
+    ListView listaProductos;
+    ArrayList<ProductoClass> productos;
 
-    ArrayList<ProductoClass> productos = new ArrayList<>();
-
-    String nombres[] = {"Pala","Macetero Redondo", "Carpa Indoor", "Tierra de hoja", "Semillas de tomate", "Semillas de tomate cherry"};
-    String descripciones[] = {
+    /*Datos de todos los productos registrados*/
+    String nombresP[] = {"Pala","Macetero Redondo", "Carpa Indoor", "Tierra de hoja", "Semillas de tomate", "Semillas de tomate cherry"};
+    String descripcionesP[] = {
             "esta es una descripción de ejemplo para la pala, nada de lo que salga aquí existe realmente, please no pesquen",
             "esta es una descripción de ejemplo para el macetero redondo, nada de lo que salga aquí existe realmente, please no pesquen",
             "esta es una descripción de ejemplo para la carpa indoor, nada de lo que salga aquí existe realmente, please no pesquen",
             "esta es una descripción de ejemplo para la tierra de hoja, nada de lo que salga aquí existe realmente, please no pesquen",
             "esta es una descripción de ejemplo para las semillas de tomate, nada de lo que salga aquí existe realmente, please no pesquen",
             "esta es una descripción de ejemplo para las semillas de tomate cherry, nada de lo que salga aquí existe realmente, please no pesquen"};
-    int imagenes[] = {R.drawable.pala,R.drawable.macetero_redondo,R.drawable.carpa_indoor,R.drawable.tierra_hoja,R.drawable.semillas_tomate,R.drawable.semillas_tomate_cherry};
-    String tiendas[] = {"","jardin flaminia","","","jardin flaminia","jardin flaminia"};
-    float valoraciones[] = {(float)2.0, (float)5.9, (float)3.6, (float)7.0, (float)6.5, (float)9.2};
-    int precios[] = {800, 2000, 25000, 300, 1200, 1850};
+    int imagenesP[] = {R.drawable.pala,R.drawable.macetero_redondo,R.drawable.carpa_indoor,R.drawable.tierra_hoja,R.drawable.semillas_tomate,R.drawable.semillas_tomate_cherry};
+    String tiendasP[] = {"","jardin flaminia","","","jardin flaminia","jardin flaminia"};
+    float valoracionesP[] = {(float)2.0, (float)5.9, (float)3.6, (float)7.0, (float)6.5, (float)9.2};
+    //String valoracionesP[] = {"2.0", "5.9", "3.6", "7.0", "6.5", "9.2"};
+    int preciosP[] = {800, 2000, 25000, 300, 1200, 1850};
 
     /**
      * Use this factory method to create a new instance of
@@ -56,20 +72,16 @@ public class MercadoProductosFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CultivosFragment.
+     * @return A new instance of fragment ProductosTiendaFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MercadoProductosFragment newInstance(String param1, String param2) {
-        MercadoProductosFragment fragment = new MercadoProductosFragment();
+    public static ProductosTiendaFragment newInstance(String param1, String param2) {
+        ProductosTiendaFragment fragment = new ProductosTiendaFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public MercadoProductosFragment() {
-
     }
 
     @Override
@@ -84,50 +96,49 @@ public class MercadoProductosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mercado_productos, container, false);
-        lista = (ListView) view.findViewById(R.id.listado_productos);
-        mensajeBusqueda = (TextView) view.findViewById(R.id.mensaje_busqueda);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_productos_tienda, container, false);
 
-        for (int i = 0; i < nombres.length; i++) {
-            productos.add(new ProductoClass(imagenes[i],nombres[i],tiendas[i],descripciones[i],precios[i], valoraciones[i]));
-        }
-        final ArrayList<ProductoClass> resultados = new ArrayList<>();
-        String s = getArguments().getString(ARG_VALOR_BUSQUEDA);
-        int conteo = 0;
-        if (s != null) {
-            if (s.length() >= 3) {
-                for (int i = 0; i < productos.size(); i++) {
-                    if (productos.get(i).getNombre().toLowerCase().contains(s.toLowerCase())) {
-                        resultados.add(productos.get(i));
-                        conteo++;
-                    }
-                }
-            }else {
-                mensajeBusqueda.setText("La búsqueda necesita por lo menos 3 letras...");
+        productos = new ArrayList<>();
+        int t = -1;
+
+        String tienda = getArguments().getString("tienda");
+
+        listaProductos = (ListView) view.findViewById(R.id.lista_productos_por_tienda);
+
+        for (int i = 0; i < nombresP.length; i++) {
+            if (tiendasP[i].toLowerCase().equalsIgnoreCase(tienda.toLowerCase())) {
+                productos.add(new ProductoClass(imagenesP[i], nombresP[i], tiendasP[i], descripcionesP[i], preciosP[i], valoracionesP[i]));
             }
-        } else {
-            mensajeBusqueda.setText("La búsqueda necesita por lo menos 3 letras...");
         }
 
-        if (conteo > 0) { mensajeBusqueda.setText("");
-        }else {
-            mensajeBusqueda.setText("No se han encontrado coincidencias...");
-        }
 
-        myAdapter = new MyAdapter(getActivity(),resultados);
-        lista.setAdapter(myAdapter);
-
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listaProductos.setOnTouchListener(new ListView.OnTouchListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), ProductoActivity.class);
-                intent.putExtra("posicion",resultados.get(position).toString());
-                startActivity(intent);
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                // Handle ListView touch events.
+                v.onTouchEvent(event);
+                return true;
             }
         });
 
-        return view;
+        MyAdapter adapter = new MyAdapter(getActivity(),productos);
+        listaProductos.setAdapter(adapter);
 
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -138,8 +149,8 @@ public class MercadoProductosFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -148,9 +159,19 @@ public class MercadoProductosFragment extends Fragment {
         mListener = null;
     }
 
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(Uri uri);
     }
 
     private class MyAdapter extends ArrayAdapter<ProductoClass> {
@@ -183,5 +204,4 @@ public class MercadoProductosFragment extends Fragment {
             return rowView;
         }
     }
-
 }
