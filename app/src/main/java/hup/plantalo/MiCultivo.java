@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.Spanned;
@@ -36,11 +37,16 @@ public class MiCultivo extends AppCompatActivity {
     ListView listado;
     MyAdapter myAdapterComentarios;
     ArrayList<ListViewComentario> filas;
+    ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mi_cultivo);
+
+        actionBar = getSupportActionBar();
+        actionBar.setTitle("Mi Cultivo");
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         String posicionRecibida = intent.getStringExtra("fila");
@@ -118,7 +124,8 @@ public class MiCultivo extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == android.R.id.home) {
+            finish();
             return true;
         }
 
@@ -139,13 +146,13 @@ public class MiCultivo extends AppCompatActivity {
             this.context = context;
             this.filas = filas;
         }
-        public View getView(int position,View view,ViewGroup parent) {
+        public View getView(int position,View view, ViewGroup parent) {
             LayoutInflater inflater=context.getLayoutInflater();
             View rowView=inflater.inflate(R.layout.casilla_home, null, true);
 
             TextView autor = (TextView) rowView.findViewById(R.id.autor_comentario);
             TextView comentario = (TextView) rowView.findViewById(R.id.comentario);
-            //TextView tipo = (TextView) rowView.findViewById(R.id.tipo);
+            TextView tipo = (TextView) rowView.findViewById(R.id.tipo_publicacion);
             ImageView imagenAutor = (ImageView) rowView.findViewById(R.id.imagen_autor);
 
             Uri uri = Uri.parse(filas.get(position).getImagenAutor());
@@ -153,12 +160,12 @@ public class MiCultivo extends AppCompatActivity {
             Spanned text = Html.fromHtml("<b>" + filas.get(position).getAutor() + "</b> comento en <b>" + filas.get(position).getCultivo() + "</b>");
             autor.setText(text);
             comentario.setText(filas.get(position).getComentario());
-            /*if (filas.get(position).getTipo().equals("c")){
+            if (filas.get(position).getTipo().equals("c")){
                 tipo.setText("Comentario");
             }
             else{
                 tipo.setText("Tips");
-            }*/
+            }
             return rowView;
         }
     }

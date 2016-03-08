@@ -2,7 +2,6 @@ package hup.plantalo;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -103,7 +102,7 @@ public class MercadoMapaFragment extends Fragment {
         mapView.onCreate(savedInstanceState);
         googleMap = mapView.getMap();
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.setMyLocationEnabled(true);
+        //googleMap.setMyLocationEnabled(true);
         double pX = -33.4498735f;
         double pY = -70.6888173f;
 

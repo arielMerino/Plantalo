@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,11 +25,15 @@ public class Main extends AppCompatActivity {
     Button botonCliente;
     DatabaseOperations bd;
     ImageView imagenPrueba;
+    ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
+
+        actionBar = getSupportActionBar();
+        actionBar.hide();
 
         imagenPrueba = (ImageView) findViewById(R.id.imagenprueba);
         Uri uri = Uri.parse("android.resource://"+this.getPackageName() + "/" + R.drawable.logoplantalo);

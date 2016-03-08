@@ -5,7 +5,7 @@ android {
         plantalo {
             keyAlias 'plantalo!key'
             keyPassword 'ariel2206'
-            storeFile file('C:/Users/ADMIN/keys.jks')
+            storeFile file('C:/Users/eliasPlease/Desktop/U/PIINFO/keys.jks')
             storePassword 'ariel2206'
         }
     }

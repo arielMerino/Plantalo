@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/text_tips"
-            android:text="Tip"
+            android:text="Tips"
             android:layout_margin="@dimen/abc_action_bar_content_inset_material"
             android:clickable="true"/>
         <View

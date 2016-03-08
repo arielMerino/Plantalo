@@ -1,8 +1,9 @@
 package hup.plantalo;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -16,12 +17,17 @@ import hup.plantalo.database.DatabaseOperations;
 public class CultivoTips extends AppCompatActivity {
 
     EditText editTextTips;
+    ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultivo_tips);
         editTextTips = (EditText) findViewById(R.id.editTextPublicarTips);
+
+        actionBar = getSupportActionBar();
+        actionBar.setTitle("Tips");
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -49,6 +55,10 @@ public class CultivoTips extends AppCompatActivity {
             String[] datos = intent.getStringArrayExtra("datos_usuario");
             db.agregarComentarioTips(db, "Elias Sobarzo", editTextTips.getText().toString(), fechaHoy, "t", intent.getStringArrayExtra("datos_cultivo")[0],"android.resource://"+this.getPackageName()+"/" + R.drawable.elias);
             finish();
+        }
+        if (id == android.R.id.home){
+            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
